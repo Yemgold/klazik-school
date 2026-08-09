@@ -67,7 +67,7 @@ export default function AnswerReveal({
           accentClass: "text-emerald-300",
         }
       : {
-          title: "NOT QUITE",
+          title: "NOT CORRECT",
           subtitle: "Let's look at the correct answer.",
           icon: XCircle,
           iconClass:

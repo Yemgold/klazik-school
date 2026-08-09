@@ -14,7 +14,7 @@ interface WrongAnimationProps {
 
 export default function WrongAnimation({
   show = true,
-  message = "Not quite",
+  message = "Not correct",
 }: WrongAnimationProps) {
   if (!show) {
     return null;
