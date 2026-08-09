@@ -1,6 +1,10 @@
 
 
 
+
+
+
+
 "use client";
 
 import { motion } from "framer-motion";
@@ -113,24 +117,26 @@ export default function Countdown({
           />
 
           {/* Progress ring */}
-
-          <motion.circle
-            cx="60"
-            cy="60"
-            r={radius}
-            fill="none"
-            strokeWidth="7"
-            strokeLinecap="round"
-            className={ringClass}
-            strokeDasharray={circumference}
-            animate={{
-              strokeDashoffset,
-            }}
-            transition={{
-              duration: 0.4,
-              ease: "linear",
-            }}
-          />
+<motion.circle
+  cx="60"
+  cy="60"
+  r={radius}
+  fill="none"
+  strokeWidth="7"
+  strokeLinecap="round"
+  className={ringClass}
+  strokeDasharray={circumference}
+  initial={{
+    strokeDashoffset: circumference,
+  }}
+  animate={{
+    strokeDashoffset,
+  }}
+  transition={{
+    duration: 0.4,
+    ease: "linear",
+  }}
+/>
         </svg>
 
         {/* -------------------------------------------------------------- */}

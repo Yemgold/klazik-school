@@ -17,6 +17,7 @@ import {
   Settings,
   Bell,
   User,
+  Play,
   Home,
   CreditCard,
 } from "lucide-react";
@@ -31,6 +32,7 @@ const icons = {
   settings: Settings,
   bell: Bell,
   user: User,
+  play: Play,
   home: Home,
   payment: CreditCard,
 };

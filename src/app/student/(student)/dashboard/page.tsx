@@ -1,8 +1,4 @@
 
-
-
-
-
 import type { QuickAction } from "@/components/dashboard/widgets/QuickActions";
 import type { StatCardProps } from "@/components/dashboard/widgets/StatCard";
 
@@ -46,10 +42,10 @@ export default function StudentDashboardPage() {
       icon: "trophy",
     },
     {
-      title: "Practice CBT",
-      description: "Sharpen your skills",
-      href: "/student/practice",
-      icon: "book",
+      title: "Learning Arena",
+      description: "Learn through interactive lessons",
+      href: "/student/arena",
+      icon: "play",
     },
     {
       title: "My Team",

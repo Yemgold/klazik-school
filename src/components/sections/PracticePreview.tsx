@@ -218,7 +218,7 @@ export default function PracticePreview() {
 
             <Link
 
-              href="/arena"
+              href="/student/arena"
 
               className={cn(
 
