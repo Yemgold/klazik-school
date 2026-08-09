@@ -11,6 +11,7 @@ import {
   Settings,
   Trophy,
   User,
+  Play,
   Users,
 } from "lucide-react";
 
@@ -52,12 +53,23 @@ export const studentNavigation: NavigationSection[] = [
   },
 
   {
-    title: "Learning",
+    title: "Learning CBT",
     items: [
       {
         label: "Practice CBT",
         href: "/student/practice",
         icon: BookOpen,
+      },
+    ],
+  },
+
+  {
+    title: "Learning Arena",
+    items: [
+      {
+        label: "Interactive Lessons",
+        href: "/student/arena",
+        icon: Play,
       },
     ],
   },
