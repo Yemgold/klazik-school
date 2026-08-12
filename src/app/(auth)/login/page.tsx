@@ -1,6 +1,7 @@
 
 
 
+
 "use client";
 
 import Link from "next/link";
@@ -12,20 +13,24 @@ import { Input } from "@/components/ui/input";
 
 import { useLoginForm } from "@/hooks/forms";
 import type { LoginFormValues } from "@/lib/validation";
+import { useLoginMutation } from "@/hooks/api/useLoginMutation";
 
 export default function LoginPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useLoginForm();
 
-  const onSubmit = async (data: LoginFormValues) => {
-    console.log("Login Data:", data);
+  const loginMutation = useLoginMutation();
 
-    // Next step:
-    // loginMutation.mutate(data);
+  const onSubmit = (data: LoginFormValues) => {
+    console.log("🔐 Login submitted:", data);
+
+    loginMutation.mutate(data);
   };
+
+  const isLoading = loginMutation.isPending;
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-50 via-white to-blue-50 px-4 py-10">
@@ -47,6 +52,14 @@ export default function LoginPage() {
             Sign in to continue your JAMB League journey.
           </p>
         </div>
+
+        {/* Error */}
+        {loginMutation.isError && (
+          <div className="mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            Unable to sign in. Please check your email and password and try
+            again.
+          </div>
+        )}
 
         {/* Form */}
         <form
@@ -96,10 +109,11 @@ export default function LoginPage() {
             type="submit"
             fullWidth
             size="lg"
-            loading={isSubmitting}
+            loading={isLoading}
+            disabled={isLoading}
             leftIcon={<LogIn className="h-5 w-5" />}
           >
-            Sign In
+            {isLoading ? "Signing In..." : "Sign In"}
           </Button>
         </form>
 

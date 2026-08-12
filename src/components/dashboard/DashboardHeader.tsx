@@ -34,13 +34,13 @@ export default function DashboardHeader({
   return (
     <header
       className={cn(
-        "sticky top-0 z-40",
-        "flex h-16 items-center justify-between",
-        "border-b border-slate-200",
-        "bg-white/95 backdrop-blur",
-        "px-4 sm:px-6 lg:px-8",
-        className
-      )}
+  "sticky top-0 z-30",
+  "flex h-16 shrink-0 items-center justify-between",
+  "border-b border-slate-200",
+  "bg-white/95 backdrop-blur",
+  "px-4 sm:px-6 lg:px-8",
+  className
+)}
     >
       {/* Left */}
       <div className="flex items-center gap-3">

@@ -12,6 +12,7 @@ export interface NavigationItem {
   badge?: string | number;
   disabled?: boolean;
   exact?: boolean;
+  description?: string;
 }
 
 export interface NavigationSection {

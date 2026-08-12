@@ -53,26 +53,28 @@ export const studentNavigation: NavigationSection[] = [
   },
 
   {
-    title: "Learning CBT",
-    items: [
-      {
-        label: "Practice CBT",
-        href: "/student/practice",
-        icon: BookOpen,
-      },
-    ],
-  },
+  title: "Learning CBT",
+  items: [
+    {
+      label: "Practice CBT",
+      description: "Simulate the real JAMB exams",
+      href: "/student/practice",
+      icon: BookOpen,
+    },
+  ],
+},
 
   {
-    title: "Learning Arena",
-    items: [
-      {
-        label: "Interactive Lessons",
-        href: "/student/arena",
-        icon: Play,
-      },
-    ],
-  },
+  title: "Learning Arena",
+  items: [
+    {
+      label: "Interactive Lessons",
+      description: "Learn through guided lessons",
+      href: "/student/arena",
+      icon: Play,
+    },
+  ],
+},
 
   {
     title: "Team",

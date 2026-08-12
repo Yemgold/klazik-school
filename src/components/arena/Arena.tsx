@@ -30,6 +30,8 @@ import CorrectAnimation from "./animations/CorrectAnimation";
 import WrongAnimation from "./animations/WrongAnimation";
 import ExplanationAnimation from "./animations/ExplanationAnimation";
 
+import Certificate from "@/components/arena/Certificate";
+
 /* -------------------------------------------------------------------------- */
 /* TYPES                                                                      */
 /* -------------------------------------------------------------------------- */
@@ -289,6 +291,15 @@ export default function Arena({
     };
   }, [phase, timeLeft]);
 
+
+
+
+
+
+
+
+
+
   /* ------------------------------------------------------------------------ */
   /* EXPLANATION                                                              */
   /* ------------------------------------------------------------------------ */
@@ -369,77 +380,131 @@ export default function Arena({
   /* FINISHED SCREEN                                                          */
   /* ------------------------------------------------------------------------ */
 
-  if (phase === "finished") {
-    const percentage =
-      totalQuestions > 0
-        ? Math.round(
-            (score / totalQuestions) *
-              100
-          )
-        : 0;
+if (phase === "finished") {
+  const percentage =
+    totalQuestions > 0
+      ? Math.round(
+          (score / totalQuestions) * 100
+        )
+      : 0;
 
-    return (
-      <section className="relative flex min-h-[700px] items-center justify-center overflow-hidden rounded-3xl bg-slate-950 p-8 text-white">
-        {/* Background */}
+  const perfectScore =
+    totalQuestions > 0 &&
+    score === totalQuestions;
 
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-1/2 top-0 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-blue-600/10 blur-[140px]" />
+  return (
+    <section className="relative min-h-screen overflow-hidden bg-slate-950 px-4 py-10 text-white">
+      {/* Background */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-1/2 top-0 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-blue-600/10 blur-[140px]" />
 
-          <div className="absolute bottom-0 left-0 h-[400px] w-[400px] rounded-full bg-purple-600/10 blur-[130px]" />
-        </div>
+        <div className="absolute bottom-0 left-0 h-[400px] w-[400px] rounded-full bg-purple-600/10 blur-[130px]" />
 
-        <div className="relative z-10 w-full max-w-xl text-center">
-          <div className="mb-6 text-6xl">
-            🏆
-          </div>
+        {perfectScore && (
+          <div className="absolute right-0 top-1/3 h-[350px] w-[350px] rounded-full bg-amber-500/10 blur-[120px]" />
+        )}
+      </div>
 
-          <h1 className="text-4xl font-black">
-            Arena Complete!
-          </h1>
+      <div className="relative z-10 mx-auto w-full max-w-6xl">
 
-          <p className="mt-3 text-slate-400">
-            You have completed this learning
-            session.
-          </p>
-
-          {/* Score */}
-
-          <div className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-8">
-            <div className="text-sm uppercase tracking-widest text-slate-400">
-              Your Score
-            </div>
-
-            <div className="mt-2 text-6xl font-black">
-              {score}
-
-              <span className="text-2xl text-slate-500">
-                /{totalQuestions}
-              </span>
-            </div>
-
-            <div className="mt-3 text-xl font-semibold">
-              {percentage}%
-            </div>
-          </div>
-
-          {/* Try again */}
-
-          <button
-            type="button"
-            onClick={() => {
+        {/* Certificate */}
+        {perfectScore ? (
+          <Certificate
+            studentName="Student"
+            subject={subject}
+            topic={topic}
+            correctAnswers={score}
+            totalQuestions={totalQuestions}
+            onRetry={() => {
               setCurrentQuestionIndex(0);
               setScore(0);
-
               resetQuestion();
             }}
-            className="mt-8 rounded-2xl bg-white px-8 py-4 font-bold text-slate-950 transition hover:scale-105"
-          >
-            Try Again
-          </button>
-        </div>
-      </section>
-    );
-  }
+            onContinue={() => {
+              // We will connect this to your
+              // topic/subject navigation later.
+            }}
+          />
+        ) : (
+          /* Normal result */
+          <div className="mx-auto max-w-xl text-center">
+
+            <div className="mb-6 text-6xl">
+              🏆
+            </div>
+
+            <h1 className="text-4xl font-black">
+              Topic Complete!
+            </h1>
+
+            <p className="mt-3 text-slate-400">
+              You have completed this learning session.
+            </p>
+
+            {/* Score */}
+            <div className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-8">
+
+              <div className="text-sm uppercase tracking-widest text-slate-400">
+                Your Score
+              </div>
+
+              <div className="mt-2 text-6xl font-black">
+                {score}
+
+                <span className="text-2xl text-slate-500">
+                  /{totalQuestions}
+                </span>
+              </div>
+
+              <div className="mt-3 text-xl font-semibold">
+                {percentage}%
+              </div>
+
+            </div>
+
+            {/* Certificate progress */}
+            <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-5">
+
+              <div className="text-2xl">
+                🏆
+              </div>
+
+              <h3 className="mt-3 font-bold">
+                Certificate of Excellence
+              </h3>
+
+              <p className="mt-2 text-sm text-slate-400">
+                Get every question correct to earn
+                your Certificate of Excellence for
+                this topic.
+              </p>
+
+              <p className="mt-3 font-bold text-white">
+                {score}/{totalQuestions} correct
+              </p>
+
+            </div>
+
+            {/* Retry */}
+            <button
+              type="button"
+              onClick={() => {
+                setCurrentQuestionIndex(0);
+                setScore(0);
+                resetQuestion();
+              }}
+              className="mt-8 rounded-2xl bg-white px-8 py-4 font-bold text-slate-950 transition hover:scale-105"
+            >
+              Try Again
+            </button>
+
+          </div>
+        )}
+
+      </div>
+    </section>
+  );
+}
 
   /* ------------------------------------------------------------------------ */
   /* ARENA                                                                    */

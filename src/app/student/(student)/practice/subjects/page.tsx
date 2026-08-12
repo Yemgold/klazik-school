@@ -112,9 +112,13 @@ export default function PracticeSubjectsPage() {
           </h1>
 
           <p className="mt-3 max-w-3xl text-lg text-slate-600">
-            Practice real JAMB CBT questions, improve your speed,
-            accuracy and confidence before the examination.
-          </p>
+  Choose a subject and practice real JAMB-style questions
+  under exam-like conditions.
+</p>
+
+<span className="rounded-full bg-blue-100 px-4 py-1 text-sm font-semibold text-blue-700">
+  Learning CBT
+</span>
         </div>
 
         {/* Subject Cards */}

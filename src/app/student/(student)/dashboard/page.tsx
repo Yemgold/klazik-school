@@ -1,4 +1,22 @@
 
+// export default function DashboardPage() {
+//   return (
+//     <main className="min-h-screen bg-slate-950 p-10 text-white">
+//       <h1 className="text-3xl font-black">
+//         JAMB League Dashboard
+//       </h1>
+
+//       <p className="mt-3 text-slate-400">
+//         Dashboard route is working.
+//       </p>
+//     </main>
+//   );
+// }
+
+
+
+
+
 import type { QuickAction } from "@/components/dashboard/widgets/QuickActions";
 import type { StatCardProps } from "@/components/dashboard/widgets/StatCard";
 
