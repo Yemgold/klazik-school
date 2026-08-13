@@ -31,13 +31,24 @@ const onSubmit = async (data: RegisterFormValues) => {
   console.log("✅ Form submitted");
   console.log(data);
 
-  registerMutation.mutate({
+  const payload = {
     firstName: data.firstName,
     lastName: data.lastName,
     email: data.email,
     phone: data.phone,
     password: data.password,
+    confirmPassword: data.confirmPassword,
+  };
+
+  console.log("========== REGISTER PAYLOAD ==========");
+  console.log({
+    ...payload,
+    password: "***",
+    confirmPassword: "***",
   });
+  console.log("=======================================");
+
+  registerMutation.mutate(payload);
 };
 
 
