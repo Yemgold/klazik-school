@@ -35,7 +35,7 @@ const onSubmit = async (data: RegisterFormValues) => {
     firstName: data.firstName,
     lastName: data.lastName,
     email: data.email,
-    phone: data.phone,
+    phoneNumber: data.phone,
     password: data.password,
     confirmPassword: data.confirmPassword,
   };
