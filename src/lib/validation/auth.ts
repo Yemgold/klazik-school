@@ -18,7 +18,11 @@ export type LoginFormValues = z.infer<typeof loginSchema>;
 
 export const registerSchema = z
   .object({
-    fullName: z
+    firstName: z
+      .string()
+      .min(3, "Full name is required."),
+
+    lastName: z
       .string()
       .min(3, "Full name is required."),
 

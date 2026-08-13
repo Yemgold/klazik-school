@@ -27,26 +27,18 @@ export default function RegisterPage() {
   // ✅ Hook belongs here
   const registerMutation = useRegisterMutation();
 
-  const onSubmit = async (data: RegisterFormValues) => {
-
-    console.log("✅ Form submitted");
+const onSubmit = async (data: RegisterFormValues) => {
+  console.log("✅ Form submitted");
   console.log(data);
 
-  alert("Form submitted");
-  
-    const names = data.fullName.trim().split(/\s+/);
-
-    const firstName = names[0];
-    const lastName = names.slice(1).join(" ") || "";
-
-    registerMutation.mutate({
-      firstName,
-      lastName,
-      email: data.email,
-      phone: data.phone,
-      password: data.password,
-    });
-  };
+  registerMutation.mutate({
+    firstName: data.firstName,
+    lastName: data.lastName,
+    email: data.email,
+    phone: data.phone,
+    password: data.password,
+  });
+};
 
 
   return (
@@ -78,11 +70,11 @@ export default function RegisterPage() {
           noValidate
         >
           <Input
-            label="Full Name"
-            placeholder="Enter your full name"
+            label="First Name"
+            placeholder="Enter your first name"
             autoComplete="name"
-            error={errors.fullName?.message}
-            {...register("fullName")}
+            error={errors.firstName?.message}
+            {...register("firstName")}
           />
 
           <Input

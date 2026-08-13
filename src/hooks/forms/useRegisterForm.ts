@@ -17,7 +17,8 @@ export function useRegisterForm() {
     resolver: zodResolver(registerSchema),
 
     defaultValues: {
-      fullName: "",
+      firstName: "",
+      lastName: "",
       email: "",
       phone: "",
       password: "",
