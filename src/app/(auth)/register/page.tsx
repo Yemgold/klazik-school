@@ -77,6 +77,14 @@ const onSubmit = async (data: RegisterFormValues) => {
             {...register("firstName")}
           />
 
+           <Input
+            label="Last Name"
+            placeholder="Enter your last name"
+            autoComplete="name"
+            error={errors.lastName?.message}
+            {...register("lastName")}
+          />
+
           <Input
             label="Email Address"
             type="email"
