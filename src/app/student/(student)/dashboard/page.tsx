@@ -1,21 +1,9 @@
 
-// export default function DashboardPage() {
-//   return (
-//     <main className="min-h-screen bg-slate-950 p-10 text-white">
-//       <h1 className="text-3xl font-black">
-//         JAMB League Dashboard
-//       </h1>
-
-//       <p className="mt-3 text-slate-400">
-//         Dashboard route is working.
-//       </p>
-//     </main>
-//   );
-// }
 
 
 
 
+"use client";
 
 import type { QuickAction } from "@/components/dashboard/widgets/QuickActions";
 import type { StatCardProps } from "@/components/dashboard/widgets/StatCard";
@@ -26,7 +14,42 @@ import {
   UpcomingCompetitions,
 } from "@/components/dashboard/widgets";
 
+import AccessBlocker from "@/components/access/AccessBlocker";
+
+import { useAuthStore } from "@/stores";
+
+import { useRouter } from "next/navigation";
+
 export default function StudentDashboardPage() {
+  /* ============================================================
+     AUTH
+     ============================================================ */
+
+  const { user } = useAuthStore();
+
+  const router = useRouter();
+
+  /*
+   * Current backend login response:
+   *
+   * hasPaid: false
+   * plans: []
+   *
+   * Therefore the AccessBlocker is displayed.
+   *
+   * Once the backend confirms an active plan,
+   * the blocker disappears.
+   */
+
+  const hasAccess =
+    user?.hasPaid === true &&
+    Array.isArray(user?.plans) &&
+    user.plans.length > 0;
+
+  /* ============================================================
+     STATISTICS
+     ============================================================ */
+
   const stats: StatCardProps[] = [
     {
       title: "Competitions",
@@ -52,6 +75,10 @@ export default function StudentDashboardPage() {
     },
   ];
 
+  /* ============================================================
+     QUICK ACTIONS
+     ============================================================ */
+
   const actions: QuickAction[] = [
     {
       title: "Join Competition",
@@ -74,10 +101,14 @@ export default function StudentDashboardPage() {
     {
       title: "Leaderboard",
       description: "See top-performing teams",
-      href: "/leaderboard",
+      href: "/student/competitions/leaderboard",
       icon: "medal",
     },
   ];
+
+  /* ============================================================
+     COMPETITIONS
+     ============================================================ */
 
   const competitions = [
     {
@@ -100,46 +131,90 @@ export default function StudentDashboardPage() {
     },
   ];
 
+  /* ============================================================
+     RENDER
+     ============================================================ */
+
   return (
     <main className="space-y-8">
-      {/* Welcome */}
+      {/* ======================================================
+          WELCOME
+         ====================================================== */}
+
       <section className="rounded-3xl bg-gradient-to-r from-blue-600 to-indigo-600 p-8 text-white">
         <h1 className="text-3xl font-bold">
           Welcome back 👋
         </h1>
 
         <p className="mt-2 max-w-2xl text-blue-100">
-          Continue your preparation, practice consistently, and climb
-          the national leaderboard.
+          Continue your preparation, practice consistently, and
+          climb the national leaderboard.
         </p>
       </section>
 
-      {/* Statistics */}
+      {/* ======================================================
+          ACCESS BLOCKER
+         ====================================================== */}
+
+      {!hasAccess && (
+        <AccessBlocker
+          onSecondaryClick={() => {
+            /*
+             * Secondary is currently available.
+             *
+             * Take the student to the Secondary Plans page
+             * where they can choose a plan and continue to
+             * Paystack payment.
+             */
+
+            router.push("/student/access/secondary");
+          }}
+        />
+      )}
+
+      {/* ======================================================
+          STATISTICS
+         ====================================================== */}
+
       <StatsGrid stats={stats} />
 
-      {/* Quick Actions */}
-      <QuickActions
-        title="Quick Actions"
-        actions={actions}
-      />
+      {/* ======================================================
+          QUICK ACTIONS
+         ====================================================== */}
 
-      {/* Upcoming Competitions */}
+      <QuickActions
+  title="Quick Actions"
+  actions={actions}
+  locked={!hasAccess}
+/>
+
+      {/* ======================================================
+          UPCOMING COMPETITIONS
+         ====================================================== */}
+
       <UpcomingCompetitions
         title="Upcoming Competitions"
         competitions={competitions}
       />
 
-      {/* Dashboard Widgets */}
+      {/* ======================================================
+          DASHBOARD WIDGETS
+         ====================================================== */}
+
       <div className="grid gap-6 lg:grid-cols-2">
+        {/* ====================================================
+            PERFORMANCE
+           ==================================================== */}
+
         <div className="rounded-2xl border bg-white p-8 shadow-sm">
           <h2 className="text-xl font-semibold text-slate-900">
             Performance Overview
           </h2>
 
           <p className="mt-3 text-slate-600">
-            Your CBT scores, ranking progress, and subject performance
-            charts will appear here after completing practice sessions
-            and competitions.
+            Your CBT scores, ranking progress, and subject
+            performance charts will appear here after completing
+            practice sessions and competitions.
           </p>
 
           <div className="mt-8 flex h-64 items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50">
@@ -149,6 +224,10 @@ export default function StudentDashboardPage() {
           </div>
         </div>
 
+        {/* ====================================================
+            RECENT ACTIVITY
+           ==================================================== */}
+
         <div className="rounded-2xl border bg-white p-8 shadow-sm">
           <h2 className="text-xl font-semibold text-slate-900">
             Recent Activity
@@ -157,7 +236,8 @@ export default function StudentDashboardPage() {
           <div className="mt-6 space-y-5">
             {[
               {
-                title: "Completed Mathematics Practice",
+                title:
+                  "Completed Mathematics Practice",
                 time: "Today • 92%",
               },
               {
@@ -165,7 +245,8 @@ export default function StudentDashboardPage() {
                 time: "Yesterday",
               },
               {
-                title: "Team Invitation Accepted",
+                title:
+                  "Team Invitation Accepted",
                 time: "2 days ago",
               },
               {

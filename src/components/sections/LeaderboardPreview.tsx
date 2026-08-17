@@ -497,7 +497,7 @@ export default function LeaderboardPreview() {
 
             <Link
 
-              href="/leaderboard"
+              href="/student/competitions/leaderboard"
 
               className={cn(
 

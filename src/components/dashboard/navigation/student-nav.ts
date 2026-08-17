@@ -12,6 +12,8 @@ import {
   Trophy,
   User,
   Play,
+  Video,
+  Wallet,
   Users,
 } from "lucide-react";
 
@@ -27,6 +29,20 @@ export const studentNavigation: NavigationSection[] = [
         icon: LayoutDashboard,
         exact: true,
       },
+
+      {
+  label: "Referrals",
+  href: "/student/referrals",
+  icon: Users,
+},
+
+{
+  label: "Wallet",
+  href: "/student/wallet",
+  icon: Wallet,
+}
+
+
     ],
   },
 
@@ -40,12 +56,12 @@ export const studentNavigation: NavigationSection[] = [
       },
       {
         label: "Leaderboard",
-        href: "/leaderboard",
+        href: "/student/competitions/leaderboard",
         icon: Medal,
       },
       {
         label: "Competition Calendar",
-        href: "/student/calendar",
+        href: "/student/competitions/calendar",
         icon: CalendarDays,
         disabled: true,
       },
@@ -64,6 +80,11 @@ export const studentNavigation: NavigationSection[] = [
   ],
 },
 
+
+
+
+
+
   {
   title: "Learning Arena",
   items: [
@@ -72,6 +93,30 @@ export const studentNavigation: NavigationSection[] = [
       description: "Learn through guided lessons",
       href: "/student/arena",
       icon: Play,
+    },
+  ],
+},
+
+{
+  title: "Earn While You Learn",
+  items: [
+    {
+      label: "Solve & Win",
+      description: "Answer questions, earn rewards, and compete for prizes",
+      href: "/student/solve-and-win",
+      icon: Trophy,
+    },
+  ],
+},
+
+{
+  title: "Learn by Watching",
+  items: [
+    {
+      label: "Question Videos",
+      description: "Watch questions, answers and step-by-step explanations",
+      href: "/student/question-videos",
+      icon: Video,
     },
   ],
 },

@@ -210,7 +210,7 @@ export default function AboutPage() {
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Link href="/register">
+            <Link href="/auth/register">
               <Button
                 size="lg"
                 variant="secondary"

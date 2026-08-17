@@ -226,7 +226,7 @@ export default async function StudentProfilePage({
 
               <div className="space-y-3">
                 <Link
-                  href="/leaderboard"
+                  href="/student/competitions/leaderboard"
                   className="block rounded-xl bg-blue-600 px-4 py-3 text-center font-semibold text-white hover:bg-blue-700"
                 >
                   View Leaderboard

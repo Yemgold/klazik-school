@@ -1,6 +1,6 @@
 
 
-
+// C:\Users\Lara Spellman\Jamb\jamb-league\src\app\student\(student)\layout.tsx
 
 import type { ReactNode } from "react";
 

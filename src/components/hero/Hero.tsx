@@ -295,7 +295,7 @@ export default function Hero() {
 
               <Link
 
-                href="/register"
+                href="/auth/register"
 
                 className={cn(
 

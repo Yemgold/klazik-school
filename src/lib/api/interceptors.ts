@@ -2,54 +2,106 @@
 
 
 
-// src/lib/api/interceptors.ts
+// import type {
+//   AxiosError,
+//   InternalAxiosRequestConfig,
+// } from "axios";
 
-import type { AxiosError, InternalAxiosRequestConfig } from "axios";
+// import { axiosInstance } from "./axios";
+// import { getAccessToken } from "@/lib/auth/token";
+// import { getDeviceId } from "@/lib/auth/device";
 
-import { axiosInstance } from "./axios";
-import { getAccessToken } from "@/lib/auth";
+// axiosInstance.interceptors.request.use(
+//   (config: InternalAxiosRequestConfig) => {
+//     const token = getAccessToken();
+//     const deviceId = getDeviceId();
 
-axiosInstance.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
-    const token = getAccessToken();
+//     console.log("========== API REQUEST ==========");
+//     console.log("URL:", config.url);
 
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+//     console.log(
+//       "Has access token:",
+//       !!token,
+//     );
 
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+//     console.log(
+//       "Token preview:",
+//       token
+//         ? `${token.substring(0, 20)}...`
+//         : null,
+//     );
 
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  async (error: AxiosError) => {
-    const status = error.response?.status;
+//     console.log(
+//       "Device ID:",
+//       deviceId,
+//     );
 
-    switch (status) {
-      case 401:
-        console.warn("Unauthorized request");
-        break;
+//     /*
+//      * ACCESS TOKEN
+//      */
+//     if (token) {
+//   config.headers.Authorization = `Bearer ${token}`;
 
-      case 403:
-        console.warn("Forbidden request");
-        break;
+//   console.log(
+//     "Authorization attached:",
+//     !!config.headers.Authorization
+//   );
+// } else {
+//   console.log(
+//     "No access token — public request."
+//   );
+// }
 
-      case 404:
-        console.warn("Resource not found");
-        break;
+//     /*
+//      * DEVICE ID
+//      */
+//     if (deviceId) {
+//       config.headers["X-Device-Id"] =
+//         deviceId;
 
-      case 500:
-        console.error("Internal server error");
-        break;
+//       console.log(
+//         "Device ID attached:",
+//         !!config.headers["X-Device-Id"],
+//       );
+//     } else {
+//       console.warn(
+//         "⚠️ NO DEVICE ID AVAILABLE",
+//       );
+//     }
 
-      default:
-        break;
-    }
+//     return config;
+//   },
 
-    return Promise.reject(error);
-  }
-);
+//   (error) => {
+//     return Promise.reject(error);
+//   },
+// );
 
-export {};
+// axiosInstance.interceptors.response.use(
+//   (response) => response,
+
+//   async (error: AxiosError) => {
+//     console.error(
+//       "========== API ERROR ==========",
+//     );
+
+//     console.error(
+//       "URL:",
+//       error.config?.url,
+//     );
+
+//     console.error(
+//       "Status:",
+//       error.response?.status,
+//     );
+
+//     console.error(
+//       "Response:",
+//       error.response?.data,
+//     );
+
+//     return Promise.reject(error);
+//   },
+// );
+
+// export {};

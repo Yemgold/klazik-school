@@ -64,7 +64,7 @@ export default function LeaderboardPreview() {
             </p>
           </div>
 
-          <Link href="/leaderboard">
+          <Link href="/student/competitions/leaderboard">
             <Button
               rightIcon={<ArrowRight className="h-4 w-4" />}
             >
@@ -100,7 +100,7 @@ export default function LeaderboardPreview() {
 
         {/* Bottom CTA */}
         <div className="mt-10 flex justify-center">
-          <Link href="/leaderboard">
+          <Link href="/student/competitions/leaderboard">
             <Button
               size="lg"
               rightIcon={<ArrowRight className="h-4 w-4" />}

@@ -40,7 +40,7 @@ const footerLinks = [
 
       {
         name: "Leaderboard",
-        href: "/leaderboard",
+        href: "/student/competitions/leaderboard",
       },
 
       {
@@ -416,7 +416,7 @@ export default function Footer() {
 
             <Link
 
-              href="/register"
+              href="/auth/register"
 
               className={cn(
 

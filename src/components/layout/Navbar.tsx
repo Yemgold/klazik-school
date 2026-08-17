@@ -35,7 +35,7 @@ const navLinks = [
 
   {
     name: "Leaderboard",
-    href: "/leaderboard",
+    href: "/student/competitions/leaderboard",
   },
 
   {
@@ -264,7 +264,7 @@ export default function Navbar() {
 
             <Link
 
-              href="/register"
+              href="/auth/register"
 
               className={cn(
 
@@ -423,7 +423,7 @@ export default function Navbar() {
 
                 <Link
 
-                  href="/register"
+                  href="/auth/register"
 
                   className={cn(
 

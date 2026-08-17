@@ -95,7 +95,7 @@ export default function CompetitionResult({
 
   timeTaken = "45 minutes",
 
-  leaderboardHref = "/leaderboard",
+  leaderboardHref = "/student/competitions/leaderboard",
 
   className,
 

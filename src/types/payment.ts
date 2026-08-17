@@ -15,3 +15,16 @@ export interface Payment extends BaseEntity {
 
   method: string;
 }
+
+
+
+export interface CreatePaymentIntentResponse {
+  success: boolean;
+
+  data?: {
+    paymentUrl: string;
+    paymentReference: string;
+  };
+
+  message?: string;
+}
