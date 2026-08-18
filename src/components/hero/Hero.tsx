@@ -114,7 +114,7 @@ export default function Hero() {
                 <Trophy size={14} strokeWidth={2.5} />
               </span>
 
-              <span>Nigeria&apos;s Premier JAMB Competition</span>
+              <span>Nigeria&apos;s Premier EXAMS Competition</span>
 
               <span className="h-1.5 w-1.5 rounded-full bg-yellow-300" />
             </motion.div>

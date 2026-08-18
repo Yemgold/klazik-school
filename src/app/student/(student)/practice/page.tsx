@@ -1,6 +1,6 @@
 
 
-
+// C:\Users\Lara Spellman\Jamb\jamb-league\src\app\student\(student)\practice\page.tsx
 
 import Link from "next/link";
 import {
@@ -25,37 +25,37 @@ const subjects = [
     name: "English",
     icon: BookOpen,
     questions: 2500,
-    href: "/student/practice/subjects?subject=english",
+    href: "/student/practice/english",
   },
   {
     name: "Mathematics",
     icon: Calculator,
     questions: 2100,
-    href: "/student/practice/subjects?subject=mathematics",
+    href: "/student/practice/mathematics",
   },
   {
     name: "Physics",
     icon: Atom,
     questions: 1800,
-    href: "/student/practice/subjects?subject=physics",
+    href: "/student/practice/physics",
   },
   {
     name: "Chemistry",
     icon: FlaskConical,
     questions: 1700,
-    href: "/student/practice/subjects?subject=chemistry",
+    href: "/student/practice/chemistry",
   },
   {
     name: "Biology",
     icon: Brain,
     questions: 2200,
-    href: "/student/practice/subjects?subject=biology",
+    href: "/student/practice/biology",
   },
   {
     name: "Government",
     icon: Globe,
     questions: 1200,
-    href: "/student/practice/subjects?subject=government",
+    href: "/student/practice/government",
   },
 ];
 
