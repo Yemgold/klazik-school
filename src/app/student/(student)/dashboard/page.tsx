@@ -41,10 +41,9 @@ export default function StudentDashboardPage() {
    * the blocker disappears.
    */
 
-  const hasAccess =
-    user?.hasPaid === true &&
-    Array.isArray(user?.plans) &&
-    user.plans.length > 0;
+ const hasSecondaryPlan =
+  Array.isArray(user?.plans) &&
+  user.plans.includes("SECONDARY");
 
   /* ============================================================
      STATISTICS
@@ -156,7 +155,7 @@ export default function StudentDashboardPage() {
           ACCESS BLOCKER
          ====================================================== */}
 
-      {!hasAccess && (
+      {!hasSecondaryPlan && (
         <AccessBlocker
           onSecondaryClick={() => {
             /*
@@ -185,7 +184,7 @@ export default function StudentDashboardPage() {
       <QuickActions
   title="Quick Actions"
   actions={actions}
-  locked={!hasAccess}
+  locked={!hasSecondaryPlan}
 />
 
       {/* ======================================================

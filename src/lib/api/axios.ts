@@ -525,25 +525,53 @@ axiosInstance.interceptors.request.use(
       );
     }
 
-    /* ========================================================
-       REFRESH TOKEN
-       ======================================================== */
+    // /* ========================================================
+    //    REFRESH TOKEN
+    //    ======================================================== */
 
-    if (refreshToken) {
-      config.headers.set(
-        "X-Refresh-Token",
-        refreshToken,
-      );
+    // if (refreshToken) {
+    //   config.headers.set(
+    //     "X-Refresh-Token",
+    //     refreshToken,
+    //   );
 
-      console.log(
-        "Refresh token attached:",
-        true,
-      );
-    } else {
-      console.warn(
-        "⚠️ NO REFRESH TOKEN AVAILABLE",
-      );
-    }
+    //   console.log(
+    //     "Refresh token attached:",
+    //     true,
+    //   );
+    // } else {
+    //   console.warn(
+    //     "⚠️ NO REFRESH TOKEN AVAILABLE",
+    //   );
+    // }
+
+
+
+
+       /* ========================================================
+   REFRESH TOKEN
+   ======================================================== */
+
+const isLogoutRequest =
+  config.url?.includes("/auth/logout");
+
+if (isLogoutRequest) {
+  if (refreshToken) {
+    config.headers.set(
+      "X-Refresh-Token",
+      refreshToken,
+    );
+
+    console.log(
+      "Refresh token attached for logout:",
+      true,
+    );
+  } else {
+    console.warn(
+      "⚠️ NO REFRESH TOKEN AVAILABLE FOR LOGOUT",
+    );
+  }
+}
 
     /* ========================================================
        FINAL REQUEST HEADERS
