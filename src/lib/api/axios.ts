@@ -3,6 +3,7 @@
 
 
 
+
 // // src/lib/api/axios.ts
 
 // import axios, {
@@ -34,6 +35,56 @@
 // });
 
 // /* ============================================================
+//    HELPERS
+//    ============================================================ */
+
+// /**
+//  * Determines whether the failed request is the wallet
+//  * transaction-history endpoint returning the expected
+//  * "no transactions" 404 response.
+//  *
+//  * This prevents an empty transaction history from appearing
+//  * as a serious API error in the browser console.
+//  */
+// function isEmptyTransactionsResponse(
+//   error: AxiosError,
+// ): boolean {
+//   const status = error.response?.status;
+
+//   const url = error.config?.url ?? "";
+
+//   const responseData = error.response?.data as
+//     | {
+//         message?: string;
+//         success?: boolean;
+//         status?: number;
+//       }
+//     | undefined;
+
+//   const message =
+//     typeof responseData?.message === "string"
+//       ? responseData.message.toLowerCase()
+//       : "";
+
+//   const isTransactionEndpoint =
+//     url.includes(
+//       "/transactions/get-all-transactions-with-userId/",
+//     );
+
+//   const isNotFound =
+//     status === 404;
+
+//   const isTransactionsNotFound =
+//     message.includes("transactions not found");
+
+//   return (
+//     isTransactionEndpoint &&
+//     isNotFound &&
+//     isTransactionsNotFound
+//   );
+// }
+
+// /* ============================================================
 //    REQUEST INTERCEPTOR
 //    ============================================================ */
 
@@ -44,7 +95,10 @@
 
 //     console.log("========== API REQUEST ==========");
 
-//     console.log("URL:", config.url);
+//     console.log(
+//       "URL:",
+//       config.url,
+//     );
 
 //     console.log(
 //       "Full URL:",
@@ -61,6 +115,10 @@
 //       Boolean(token),
 //     );
 
+//     /*
+//      * Do not print the actual token.
+//      * Only show a short preview for debugging.
+//      */
 //     console.log(
 //       "Token preview:",
 //       token
@@ -81,7 +139,9 @@
 //       console.log(
 //         "Authorization attached:",
 //         Boolean(
-//           config.headers.get("Authorization"),
+//           config.headers.get(
+//             "Authorization",
+//           ),
 //         ),
 //       );
 //     } else {
@@ -116,12 +176,16 @@
 
 //     console.log(
 //       "Authorization header:",
-//       config.headers.get("Authorization"),
+//       config.headers.get(
+//         "Authorization",
+//       ),
 //     );
 
 //     console.log(
 //       "X-Device-Id header:",
-//       config.headers.get("X-Device-Id"),
+//       config.headers.get(
+//         "X-Device-Id",
+//       ),
 //     );
 
 //     return config;
@@ -144,7 +208,9 @@
 
 // axiosInstance.interceptors.response.use(
 //   (response) => {
-//     console.log("========== API RESPONSE ==========");
+//     console.log(
+//       "========== API RESPONSE ==========",
+//     );
 
 //     console.log(
 //       "Status:",
@@ -165,6 +231,37 @@
 //   },
 
 //   (error: AxiosError) => {
+//     /* ========================================================
+//        EXPECTED EMPTY TRANSACTION RESPONSE
+//        ======================================================== */
+
+//     if (isEmptyTransactionsResponse(error)) {
+//       /*
+//        * This is not treated as a serious API failure.
+//        *
+//        * The wallet has simply never had a transaction.
+//        * The wallet transaction hook will convert this into:
+//        *
+//        * transactions = []
+//        * totalCount = 0
+//        * totalPages = 0
+//        * isEmpty = true
+//        *
+//        * Keep the log lightweight so development is still
+//        * understandable without flooding the console.
+//        */
+
+//       console.info(
+//         "No wallet transactions found. Showing empty transaction state.",
+//       );
+
+//       return Promise.reject(error);
+//     }
+
+//     /* ========================================================
+//        REAL API ERROR
+//        ======================================================== */
+
 //     console.error(
 //       "========== API ERROR ==========",
 //     );
@@ -230,179 +327,6 @@
 
 
 
-// // src/lib/api/axios.ts
-
-// import axios, {
-//   type AxiosError,
-//   type InternalAxiosRequestConfig,
-// } from "axios";
-
-// import { env } from "@/config";
-// import { API } from "@/constants";
-
-// import {
-//   getAccessToken,
-// } from "@/lib/auth/token";
-
-// import {
-//   getDeviceId,
-// } from "@/lib/auth/device";
-
-// /* ============================================================
-//    AXIOS INSTANCE
-//    ============================================================ */
-
-// export const axiosInstance = axios.create({
-//   baseURL: env.API_URL,
-
-//   timeout: API.TIMEOUT,
-
-//   headers: {
-//     "Content-Type": "application/json",
-//     Accept: "application/json",
-//   },
-
-//   withCredentials: true,
-// });
-
-// /* ============================================================
-//    REQUEST INTERCEPTOR
-//    ============================================================ */
-
-// axiosInstance.interceptors.request.use(
-//   (
-//     config: InternalAxiosRequestConfig,
-//   ) => {
-//     const token = getAccessToken();
-
-//     const deviceId = getDeviceId();
-
-//     console.log(
-//       "========== API REQUEST ==========",
-//     );
-
-//     console.log(
-//       "URL:",
-//       config.url,
-//     );
-
-//     console.log(
-//       "Method:",
-//       config.method,
-//     );
-
-//     console.log(
-//       "Has access token:",
-//       Boolean(token),
-//     );
-
-//     console.log(
-//       "Token preview:",
-//       token
-//         ? `${token.substring(0, 20)}...`
-//         : null,
-//     );
-
-//     /* ========================================================
-//        AUTHORIZATION
-//        ======================================================== */
-
-//     if (token) {
-//       config.headers.set(
-//         "Authorization",
-//         `Bearer ${token}`,
-//       );
-
-//       console.log(
-//         "Authorization attached:",
-//         Boolean(
-//           config.headers.get(
-//             "Authorization",
-//           ),
-//         ),
-//       );
-//     } else {
-//       console.warn(
-//         "⚠️ NO ACCESS TOKEN AVAILABLE",
-//       );
-//     }
-
-//     /* ========================================================
-//        DEVICE ID
-//        ======================================================== */
-
-//     if (deviceId) {
-//       config.headers.set(
-//         "X-Device-Id",
-//         deviceId,
-//       );
-
-//       console.log(
-//         "Device ID attached:",
-//         true,
-//       );
-//     } else {
-//       console.warn(
-//         "⚠️ NO DEVICE ID AVAILABLE",
-//       );
-//     }
-
-//     return config;
-//   },
-
-//   (error) => {
-//     return Promise.reject(error);
-//   },
-// );
-
-// /* ============================================================
-//    RESPONSE INTERCEPTOR
-//    ============================================================ */
-
-// axiosInstance.interceptors.response.use(
-//   (response) => {
-//     return response;
-//   },
-
-//   async (error: AxiosError) => {
-//     console.error(
-//       "========== API ERROR ==========",
-//     );
-
-//     console.error(
-//       "URL:",
-//       error.config?.url,
-//     );
-
-//     console.error(
-//       "Method:",
-//       error.config?.method,
-//     );
-
-//     console.error(
-//       "Status:",
-//       error.response?.status,
-//     );
-
-//     console.error(
-//       "Response:",
-//       error.response?.data,
-//     );
-
-//     return Promise.reject(error);
-//   },
-// );
-
-// /* ============================================================
-//    API ALIAS
-//    ============================================================ */
-
-// export const api = axiosInstance;
-
-
-
-
-
 // src/lib/api/axios.ts
 
 import axios, {
@@ -415,6 +339,8 @@ import { API } from "@/constants";
 
 import { getAccessToken } from "@/lib/auth/token";
 import { getDeviceId } from "@/lib/auth/device";
+
+import { useAuthStore } from "@/stores";
 
 /* ============================================================
    AXIOS INSTANCE
@@ -441,9 +367,6 @@ export const axiosInstance = axios.create({
  * Determines whether the failed request is the wallet
  * transaction-history endpoint returning the expected
  * "no transactions" 404 response.
- *
- * This prevents an empty transaction history from appearing
- * as a serious API error in the browser console.
  */
 function isEmptyTransactionsResponse(
   error: AxiosError,
@@ -489,10 +412,29 @@ function isEmptyTransactionsResponse(
 
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = getAccessToken();
-    const deviceId = getDeviceId();
+    /* ========================================================
+       GET AUTH INFORMATION
+       ======================================================== */
 
-    console.log("========== API REQUEST ==========");
+    const accessToken =
+      getAccessToken();
+
+    const deviceId =
+      getDeviceId();
+
+    /*
+     * Refresh token is stored inside the Zustand auth store.
+     *
+     * We read the current state without using the React hook,
+     * because Axios interceptors run outside React components.
+     */
+
+    const refreshToken =
+      useAuthStore.getState().refreshToken;
+
+    console.log(
+      "========== API REQUEST ==========",
+    );
 
     console.log(
       "URL:",
@@ -511,28 +453,42 @@ axiosInstance.interceptors.request.use(
 
     console.log(
       "Has access token:",
-      Boolean(token),
+      Boolean(accessToken),
+    );
+
+    console.log(
+      "Has refresh token:",
+      Boolean(refreshToken),
     );
 
     /*
-     * Do not print the actual token.
-     * Only show a short preview for debugging.
+     * Do not print the actual access token.
      */
+
     console.log(
-      "Token preview:",
-      token
-        ? `${token.substring(0, 20)}...`
+      "Access token preview:",
+      accessToken
+        ? `${accessToken.substring(0, 20)}...`
         : null,
     );
 
+    /*
+     * Do not print the actual refresh token.
+     */
+
+    console.log(
+      "Refresh token available:",
+      Boolean(refreshToken),
+    );
+
     /* ========================================================
-       AUTHORIZATION
+       ACCESS TOKEN
        ======================================================== */
 
-    if (token) {
+    if (accessToken) {
       config.headers.set(
         "Authorization",
-        `Bearer ${token}`,
+        `Bearer ${accessToken}`,
       );
 
       console.log(
@@ -570,6 +526,26 @@ axiosInstance.interceptors.request.use(
     }
 
     /* ========================================================
+       REFRESH TOKEN
+       ======================================================== */
+
+    if (refreshToken) {
+      config.headers.set(
+        "X-Refresh-Token",
+        refreshToken,
+      );
+
+      console.log(
+        "Refresh token attached:",
+        true,
+      );
+    } else {
+      console.warn(
+        "⚠️ NO REFRESH TOKEN AVAILABLE",
+      );
+    }
+
+    /* ========================================================
        FINAL REQUEST HEADERS
        ======================================================== */
 
@@ -584,6 +560,15 @@ axiosInstance.interceptors.request.use(
       "X-Device-Id header:",
       config.headers.get(
         "X-Device-Id",
+      ),
+    );
+
+    console.log(
+      "X-Refresh-Token attached:",
+      Boolean(
+        config.headers.get(
+          "X-Refresh-Token",
+        ),
       ),
     );
 
@@ -634,22 +619,11 @@ axiosInstance.interceptors.response.use(
        EXPECTED EMPTY TRANSACTION RESPONSE
        ======================================================== */
 
-    if (isEmptyTransactionsResponse(error)) {
-      /*
-       * This is not treated as a serious API failure.
-       *
-       * The wallet has simply never had a transaction.
-       * The wallet transaction hook will convert this into:
-       *
-       * transactions = []
-       * totalCount = 0
-       * totalPages = 0
-       * isEmpty = true
-       *
-       * Keep the log lightweight so development is still
-       * understandable without flooding the console.
-       */
-
+    if (
+      isEmptyTransactionsResponse(
+        error,
+      )
+    ) {
       console.info(
         "No wallet transactions found. Showing empty transaction state.",
       );
@@ -720,4 +694,5 @@ axiosInstance.interceptors.response.use(
    API ALIAS
    ============================================================ */
 
-export const api = axiosInstance;
+export const api =
+  axiosInstance;
