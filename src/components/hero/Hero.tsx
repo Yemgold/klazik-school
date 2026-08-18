@@ -256,7 +256,7 @@ export default function Hero() {
             <div className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-white/10 p-2 shadow-2xl shadow-blue-950/50 backdrop-blur-sm sm:rounded-[2.5rem]">
               <div className="relative aspect-[4/4.5] overflow-hidden rounded-[1.6rem] sm:aspect-[4/4.2]">
                 <Image
-                  src="/images/hero/jamb-league-students.jpg"
+                  src="/images/hero/jamb-league-students.png"
                   alt="Students preparing and competing in JAMB League"
                   fill
                   priority
